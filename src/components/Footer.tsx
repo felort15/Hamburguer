@@ -6,8 +6,13 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 export const Footer: React.FC = () => {
+    const handleWhatsAppClick = () => {
+        window.open(`https://wa.me/5557654321`, '_blank');
+    };
+
     return (
         <Box 
             component="footer" 
@@ -94,7 +99,13 @@ export const Footer: React.FC = () => {
                             <IconButton color="primary" aria-label="Twitter">
                                 <TwitterIcon />
                             </IconButton>
+                            <IconButton color="primary" onClick={handleWhatsAppClick}>
+                                <WhatsAppIcon />
+                            </IconButton>
                         </Stack>
+                        <Typography variant="body2" sx={{ mt: 1 }}>
+                            WhatsApp: (555) 765-4321
+                        </Typography>
                     </Box>
                 </Box>
 
