@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
     Tabs, 
     Tab, 
@@ -41,6 +41,13 @@ export const MenuPage: React.FC = () => {
             setMenuOpen(false);
         }
     };
+
+    // Open cart when items are added
+    useEffect(() => {
+        if (items.length > 0) {
+            setCartOpen(true);
+        }
+    }, [items.length]);
 
     return (
         <Box sx={{ 
