@@ -5,38 +5,31 @@ import {
     Box, 
     Badge,
     IconButton,
-    Drawer,
-    List,
-    ListItem,
-    ListItemText,
     Typography,
-    Button,
     Stack,
     useTheme,
     useMediaQuery,
     AppBar,
     Toolbar,
-    ListItemButton,
-    Modal,
-    Fade,
     Container,
     Grid
 } from '@mui/material';
 import ShoppingBagIcon from '@mui/icons-material/LocalMall';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
 import { FoodCard } from '../components/FoodCard';
 import { menuItems } from '../data/menuItems';
 import { useCart } from '../context/CartContext';
 import { Footer } from '../components/Footer';
 import { MenuDrawer } from '../components/Drawer';
+import { CartModal } from '../components/CartModal';
+import { CartDrawer } from '../components/CartDrawer';
+import { Logo } from '../components/Logo';
 
 export const MenuPage: React.FC = () => {
     const [category, setCategory] = useState<'appetizer' | 'main' | 'dessert' | 'drink' | 'salads' | 'sides'>('main');
     const [cartOpen, setCartOpen] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
-    const { items, total, removeFromCart, updateQuantity } = useCart();
+    const { items } = useCart();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -59,9 +52,10 @@ export const MenuPage: React.FC = () => {
                 <Toolbar>
                     {isMobile ? (
                         <>
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                    🍔 Burger Restaurant
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <Logo />
+                                <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center' }}>
+                                    Burger Restaurant
                                 </Typography>
                             </Box>
                             <Box sx={{ flexGrow: 1 }} />
@@ -75,6 +69,7 @@ export const MenuPage: React.FC = () => {
                                 <IconButton 
                                     color="inherit" 
                                     onClick={() => setCartOpen(true)}
+                                    data-testid="cart-button"
                                 >
                                     <Badge badgeContent={items.length} color="secondary">
                                         <ShoppingBagIcon />
@@ -84,9 +79,12 @@ export const MenuPage: React.FC = () => {
                         </>
                     ) : (
                         <>
-                            <Typography variant="h6">
-                                Burger Restaurant
-                            </Typography>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                <Logo />
+                                <Typography variant="h6">
+                                    Burger Restaurant
+                                </Typography>
+                            </Box>
                             <Box sx={{ flexGrow: 1 }} />
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                 <Tabs 
@@ -105,6 +103,7 @@ export const MenuPage: React.FC = () => {
                                 color="inherit" 
                                 onClick={() => setCartOpen(true)}
                                 sx={{ ml: 2 }}
+                                data-testid="cart-button"
                             >
                                 <Badge badgeContent={items.length} color="secondary">
                                     <ShoppingBagIcon />
@@ -140,7 +139,17 @@ export const MenuPage: React.FC = () => {
                 onCategoryChange={handleCategoryChange}
             />
 
-           
+            {/* Cart Components */}
+            <CartModal 
+                open={cartOpen && isMobile}
+                onClose={() => setCartOpen(false)}
+                isMobile={isMobile}
+            />
+            <CartDrawer 
+                open={cartOpen && !isMobile}
+                onClose={() => setCartOpen(false)}
+                isMobile={isMobile}
+            />
         </Box>
     );
 }; 
