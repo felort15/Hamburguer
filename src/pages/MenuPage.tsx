@@ -30,9 +30,10 @@ import { FoodCard } from '../components/FoodCard';
 import { menuItems } from '../data/menuItems';
 import { useCart } from '../context/CartContext';
 import { Footer } from '../components/Footer';
+import { MenuDrawer } from '../components/Drawer';
 
 export const MenuPage: React.FC = () => {
-    const [category, setCategory] = useState<'appetizer' | 'main' | 'dessert' | 'drink'>('main');
+    const [category, setCategory] = useState<'appetizer' | 'main' | 'dessert' | 'drink' | 'salads' | 'sides'>('main');
     const [cartOpen, setCartOpen] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
     const { items, total, removeFromCart, updateQuantity } = useCart();
@@ -41,7 +42,7 @@ export const MenuPage: React.FC = () => {
 
     const filteredItems = menuItems.filter(item => item.category === category);
 
-    const handleCategoryChange = (newCategory: 'appetizer' | 'main' | 'dessert' | 'drink') => {
+    const handleCategoryChange = (newCategory: 'appetizer' | 'main' | 'dessert' | 'drink' | 'salads' | 'sides') => {
         setCategory(newCategory);
         if (isMobile) {
             setMenuOpen(false);
@@ -92,9 +93,11 @@ export const MenuPage: React.FC = () => {
                                     value={category} 
                                     onChange={(_, newValue) => setCategory(newValue)} 
                                 >
-                                    <Tab label="Appetizers" value="appetizer" />
-                                    <Tab label="Main Course" value="main" />
                                     <Tab label="Drinks" value="drink" />
+                                    <Tab label="Appetizers" value="appetizer" />
+                                    <Tab label="Salads" value="salads" />
+                                    <Tab label="Main Course" value="main" />
+                                    <Tab label="Sides" value="sides" />
                                     <Tab label="Desserts" value="dessert" />
                                 </Tabs>
                             </Box>
@@ -130,208 +133,14 @@ export const MenuPage: React.FC = () => {
             <Footer />
 
             {/* Mobile Navigation Drawer */}
-            <Drawer
-                anchor="left"
+            <MenuDrawer 
                 open={menuOpen && isMobile}
                 onClose={() => setMenuOpen(false)}
-            >
-                <Box sx={{ width: 250 }}>
-                    <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Typography variant="h6">Menu</Typography>
-                        <IconButton onClick={() => setMenuOpen(false)}>
-                            <CloseIcon />
-                        </IconButton>
-                    </Box>
-                    <List>
-                        <ListItemButton 
-                            selected={category === 'drink'}
-                            onClick={() => handleCategoryChange('drink')}
-                        >
-                            <ListItemText primary="Drinks" />
-                        </ListItemButton>
-                        <ListItemButton 
-                            selected={category === 'appetizer'}
-                            onClick={() => handleCategoryChange('appetizer')}
-                        >
-                            <ListItemText primary="Appetizers" />
-                        </ListItemButton>
-                        <ListItemButton 
-                            selected={category === 'main'}
-                            onClick={() => handleCategoryChange('main')}
-                        >
-                            <ListItemText primary="Main Course" />
-                        </ListItemButton>
-                        <ListItemButton 
-                            selected={category === 'dessert'}
-                            onClick={() => handleCategoryChange('dessert')}
-                        >
-                            <ListItemText primary="Desserts" />
-                        </ListItemButton>
-                    </List>
-                </Box>
-            </Drawer>
+                category={category}
+                onCategoryChange={handleCategoryChange}
+            />
 
-            {/* Cart Modal */}
-            <Modal
-                open={cartOpen && isMobile}
-                onClose={() => setCartOpen(false)}
-                closeAfterTransition
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}
-            >
-                <Fade in={cartOpen}>
-                    <Box sx={{
-                        bgcolor: 'background.paper',
-                        boxShadow: 24,
-                        width: '100%',
-                        height: '100%',
-                        overflow: 'auto'
-                    }}>
-                        <Box sx={{ 
-                            p: 2,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            height: '100%'
-                        }}>
-                            <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
-                                <IconButton onClick={() => setCartOpen(false)} size="small">
-                                    <ArrowBackIcon />
-                                </IconButton>
-                                <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                    <ShoppingBagIcon /> Food Bag
-                                </Typography>
-                            </Stack>
-
-                            <List sx={{ flex: 1, overflow: 'auto' }}>
-                                {items.map(item => (
-                                    <ListItem key={item.id}>
-                                        <ListItemText
-                                            primary={item.name}
-                                            secondary={`$${item.price.toFixed(2)} x ${item.quantity}`}
-                                        />
-                                        <Box>
-                                            <IconButton size="small" onClick={() => updateQuantity(item.id, item.quantity - 1)}>
-                                                -
-                                            </IconButton>
-                                            <IconButton size="small" onClick={() => updateQuantity(item.id, item.quantity + 1)}>
-                                                +
-                                            </IconButton>
-                                            <IconButton size="small" onClick={() => removeFromCart(item.id)}>
-                                                🗑️
-                                            </IconButton>
-                                        </Box>
-                                    </ListItem>
-                                ))}
-                            </List>
-
-                            <Box sx={{ 
-                                mt: 2, 
-                                pt: 2,
-                                borderTop: 1, 
-                                borderColor: 'divider'
-                            }}>
-                                <Typography variant="h6">
-                                    Total: ${total.toFixed(2)}
-                                </Typography>
-                                <Stack spacing={1} sx={{ mt: 2 }}>
-                                    <Button 
-                                        variant="contained" 
-                                        color="primary" 
-                                        fullWidth 
-                                        disabled={items.length === 0}
-                                    >
-                                        Order
-                                    </Button>
-                                    <Button
-                                        variant="outlined"
-                                        fullWidth
-                                        onClick={() => setCartOpen(false)}
-                                        startIcon={<ArrowBackIcon />}
-                                    >
-                                        Return to Menu
-                                    </Button>
-                                </Stack>
-                            </Box>
-                        </Box>
-                    </Box>
-                </Fade>
-            </Modal>
-
-            {/* Desktop Cart Drawer */}
-            {!isMobile && (
-                <Drawer 
-                    anchor="right" 
-                    open={cartOpen} 
-                    onClose={() => setCartOpen(false)}
-                    PaperProps={{
-                        sx: {
-                            width: 350,
-                            height: '100%'
-                        }
-                    }}
-                >
-                    <Box sx={{ 
-                        p: 2,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        height: '100%'
-                    }}>
-                        <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
-                            <IconButton onClick={() => setCartOpen(false)} size="small">
-                                <ArrowBackIcon />
-                            </IconButton>
-                            <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <ShoppingBagIcon /> Food Bag
-                            </Typography>
-                        </Stack>
-
-                        <List sx={{ flex: 1, overflow: 'auto' }}>
-                            {items.map(item => (
-                                <ListItem key={item.id}>
-                                    <ListItemText
-                                        primary={item.name}
-                                        secondary={`$${item.price.toFixed(2)} x ${item.quantity}`}
-                                    />
-                                    <Box>
-                                        <IconButton size="small" onClick={() => updateQuantity(item.id, item.quantity - 1)}>
-                                            -
-                                        </IconButton>
-                                        <IconButton size="small" onClick={() => updateQuantity(item.id, item.quantity + 1)}>
-                                            +
-                                        </IconButton>
-                                        <IconButton size="small" onClick={() => removeFromCart(item.id)}>
-                                            🗑️
-                                        </IconButton>
-                                    </Box>
-                                </ListItem>
-                            ))}
-                        </List>
-
-                        <Box sx={{ 
-                            mt: 2, 
-                            pt: 2,
-                            borderTop: 1, 
-                            borderColor: 'divider'
-                        }}>
-                            <Typography variant="h6">
-                                Total: ${total.toFixed(2)}
-                            </Typography>
-                            <Button 
-                                variant="contained" 
-                                color="primary" 
-                                fullWidth 
-                                sx={{ mt: 2 }}
-                                disabled={items.length === 0}
-                            >
-                                Order
-                            </Button>
-                        </Box>
-                    </Box>
-                </Drawer>
-            )}
+           
         </Box>
     );
 }; 

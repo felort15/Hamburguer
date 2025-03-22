@@ -4,7 +4,7 @@ export interface MenuItem {
     description: string;
     price: number;
     image: string;
-    category: 'appetizer' | 'main' | 'dessert' | 'drink';
+    category: 'appetizer' | 'main' | 'dessert' | 'drink' | 'salads' | 'sides';
 }
 
 export interface CartItem extends MenuItem {

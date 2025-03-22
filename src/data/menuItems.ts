@@ -23,7 +23,7 @@ export const menuItems: MenuItem[] = [
         name: 'Mozzarella Sticks',
         description: 'Crispy breaded mozzarella with marinara sauce',
         price: 7.99,
-        image: 'https://images.unsplash.com/photo-1531749668029-257fe5f3d34f?w=500',
+        image: 'https://images.unsplash.com/photo-1531749668029-23c9450c58cd?w=500',
         category: 'appetizer'
     },
     {
@@ -164,5 +164,77 @@ export const menuItems: MenuItem[] = [
         price: 1.99,
         image: 'https://images.unsplash.com/photo-1564601835759-48d8e5daf24f?w=500',
         category: 'drink'
+    },
+    {
+        id: 'drink7',
+        name: 'Tap Beer',
+        description: 'Tap Beer',
+        price: 1.99,
+        image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500',
+        category: 'drink'
+    },
+    {
+        id: 'drink8',
+        name: 'Beer bottle',
+        description: 'Beer bottle',
+        price: 1.99,
+        image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500',
+        category: 'drink'
+    },
+    {
+        id: 'salads1',
+        name: 'Caesar Salad',
+        description: 'Crisp romaine lettuce, croutons, parmesan cheese with Caesar dressing',
+        price: 8.99,
+        image: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=500',
+        category: 'salads'
+    },
+    {
+        id: 'salads2',
+        name: 'Spinach Salad',
+        description: 'Fresh spinach, strawberries, almonds, and balsamic vinaigrette',
+        price: 9.99,
+        image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500',
+        category: 'salads'
+    },
+    {
+        id: 'salads3',
+        name: 'Greek Salad',
+        description: 'Fresh tomatoes, cucumbers, olives, and feta cheese with olive oil dressing',
+        price: 8.99,
+        image: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=500',
+        category: 'salads'
+    },
+    {
+        id: 'salads4',
+        name: 'Quinoa Bowl',
+        description: 'Quinoa, roasted vegetables, avocado, and tahini dressing',
+        price: 9.99,
+        image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500',
+        category: 'salads'
+    },
+    {
+        id: 'sides1',
+        name: 'Sweet Potato Fries',
+        description: 'Crispy sweet potato fries with sea salt',
+        price: 4.99,
+        image: 'https://images.unsplash.com/photo-1600657644140-aa09d78637cc?w=500',
+        category: 'sides'
+    },
+    {
+        id: 'sides2',
+        name: 'Coleslaw',
+        description: 'Creamy coleslaw with cabbage and carrots',
+        price: 3.99,
+        image: 'https://images.unsplash.com/photo-1626074353765-517a681e37f1?w=500',
+        category: 'sides'
+    },
+    {
+        id: 'sides3',
+        name: 'Mac & Cheese',
+        description: 'Creamy macaroni and cheese with cheddar',
+        price: 5.99,
+        image: 'https://images.unsplash.com/photo-1543339494-b4cd4f7ba686?w=500',
+        category: 'sides'
     }
 ]; 
